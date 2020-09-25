@@ -42,6 +42,7 @@
         'https://github.com/jobiols/odoo-addons.git',
         'git@github.com:jobiols/odoo-jeo-ce.git',
         #'git@github.com:jobiols/odoo-private-addons.git',
+        'https://github.com/marionumza/rep-sb.git',
 
         # para localizacion argentina
         'https://github.com/ingadhoc/odoo-argentina.git',
