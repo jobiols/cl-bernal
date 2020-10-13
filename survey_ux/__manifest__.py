@@ -31,7 +31,6 @@
         'mail'
         ],
     'data': [
-#        'security/ir.model.access.csv',
         'views/email_template_form_view.xml',
         'views/survey_user_input_view.xml',
         ],

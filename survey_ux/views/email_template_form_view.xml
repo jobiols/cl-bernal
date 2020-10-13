@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
 <!-- model.name inherit email_template_form -->
 <record id="email_template_form" model="ir.ui.view">
