@@ -2,43 +2,56 @@
 <odoo>
 <data>
 
+    <record id="view_survey_mail_template_search" model="ir.ui.view">
+        <field name="name">survey.mail.template.search</field>
+        <field name="model">mail.template</field>
+        <field name="arch" type="xml">
+            <search string="Template Search">
+                <filter string="Plantillas de Encuestas" 
+                    name="survey_templates" 
+                    domain="[('model_id', '=', 'survey.user_input')]"/>
+            </search>
+        </field>
+    </record>
+
     <!-- Agregar el action para mail template -->
     <record id="action_survey_mail_template" model="ir.actions.act_window">
-        <field name="name">Mail Template</field>
-        <field name="res_model">survey.user_input</field>
+        <field name="name">Plantillas de Mail</field>
+        <field name="res_model">mail.template</field>
         <field name="view_mode">tree,form</field>
-        <!--
-        <field name="search_view_id" ref="survey_label_search"/>
-        <field name="context">{'search_default_group_by_question': True}</field>
-        -->
+        <field name="search_view_id" ref="view_survey_mail_template_search"/>
+
+        <field name="context">{'search_default_survey_templates': True}</field>
+
         <field name="help" type="html">
           <p class="o_view_nocontent_empty_folder">
-            Enter new mail template
+                This is where the Survey templates will appear. There are none yet ...
           </p>
         </field>
     </record>
 
     <!-- Poner code_field en el formulario de encuestas-->
-    <menuitem id="menu_survey_mail_template"
-        name="Mail Template"
+    <menuitem 
+        id="menu_survey_mail_template"
+        name="Plantilla de Encuestas"
         action="action_survey_mail_template"
         parent="survey.survey_menu_questions"
+        sequence="3"
+    />
 
-        sequence="3"/>
-
-        <!-- poner la secuencia (code field) en el formulario de encuestas -->
-        <record id="survey_form" model="ir.ui.view">
-            <field name="name">survey_form_model_inherit</field>
-            <field name="model">survey.survey</field>
-            <field name="inherit_id" ref="survey.survey_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//sheet/div" position="before">
-                    <div style="float: left;">
-                        <strong><field name="code_field"/></strong>
-                    </div>
-                </xpath>
-            </field>
-        </record>
+    <!-- poner la secuencia (code field) en el formulario de encuestas -->
+    <record id="survey_form" model="ir.ui.view">
+        <field name="name">survey_form_model_inherit</field>
+        <field name="model">survey.survey</field>
+        <field name="inherit_id" ref="survey.survey_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/div" position="before">
+                <div style="float: left;">
+                    <strong><field name="code_field"/></strong>
+                </div>
+            </xpath>
+        </field>
+    </record>
 
     <!-- Poner el nombre completo incluida la id en el kanban de encuestas-->
     <record id="survey_kanban" model="ir.ui.view">
