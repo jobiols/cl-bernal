@@ -90,10 +90,11 @@ class MailListAcqirer(models.AbstractModel):
             for row in reader:
                 process_file_line(row)
 
-        try:
-            os.rename(filename, self.bkp_filename(path_bkp))
-        except OSError as ex:
-            _logger.error("Can not move file %s - %s", filename, str(ex))
+        if path_bkp:
+            try:
+                os.rename(filename, self.bkp_filename(path_bkp))
+            except OSError as ex:
+                _logger.error("Can not move file %s - %s", filename, str(ex))
 
         return ret
 
