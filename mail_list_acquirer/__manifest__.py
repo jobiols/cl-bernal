@@ -19,7 +19,7 @@
 
 {
     'name': 'Mail list Acquirer',
-    'version': '13.0.0.0.0',
+    'version': '13.0.1.0.0',
     'category': 'Tools',
     "development_status": "Alpha",  # "Alpha|Beta|Production/Stable|Mature"
     'summary': "Genera lista de correo a partir de archivos de texto",
