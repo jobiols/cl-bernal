@@ -39,6 +39,12 @@
         sequence="3"
     />
 
+    <!-- le quitamos el groups al menu Questions que esta en -->
+    <menuitem name="Questions"
+    	id="survey.survey_menu_questions"
+        parent="survey.menu_surveys" 
+        sequence="80"/>
+
     <!-- poner la secuencia (code field) en el formulario de encuestas -->
     <record id="survey_form" model="ir.ui.view">
         <field name="name">survey_form_model_inherit</field>
