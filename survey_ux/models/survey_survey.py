@@ -30,3 +30,11 @@ class Survey(models.Model):
         base_url = self.env.company.company_registry
         for survey in self:
             survey.public_url = urls.url_join(base_url, "survey/start/%s" % (survey.access_token))
+
+class SurveyUserInput(models.Model):
+    _inherit = 'survey.user_input'
+
+    survey_name = fields.Char(
+        related='survey_id.display_name',
+        store=True
+    )

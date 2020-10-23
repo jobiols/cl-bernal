@@ -2,6 +2,7 @@
 <odoo>
 <data>
 
+    <!-- filtro por defecto para que aparezcan solo las de tipo user_input -->
     <record id="view_survey_mail_template_search" model="ir.ui.view">
         <field name="name">survey.mail.template.search</field>
         <field name="model">mail.template</field>
@@ -82,6 +83,18 @@
             </xpath>
         </field>
     </record>
-</data>
 
+    <!-- ponemos un filtro para que se pueda buscar por el numero -->
+    <record id="survey_user_input_view_search" model="ir.ui.view">
+        <field name="name">survey.user_input.view.search</field>
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='survey_id']" position="replace">
+                <field name="survey_name" string="Nombre de encuesta"/>
+            </xpath>
+        </field>
+    </record>
+
+</data>
 </odoo>
