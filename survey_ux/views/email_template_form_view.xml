@@ -14,10 +14,11 @@
         <xpath expr="//page[2]" position="attributes">
             <attribute name="attrs">{"invisible": True}</attribute>
         </xpath>
+<!--
         <xpath expr="//page[3]" position="attributes">
             <attribute name="attrs">{"invisible": True}</attribute>
         </xpath>
-<!--
+
         <xpath expr="//page[4]" position="attributes">
             <attribute name="attrs">{"invisible": True}</attribute>
         </xpath>
