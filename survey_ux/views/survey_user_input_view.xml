@@ -96,5 +96,30 @@
         </field>
     </record>
 
+    <!-- eliminar los campos sobrantes -->
+    <record id="survey_user_input_view_tree" model="ir.ui.view">
+        <field name="name">survey.user_input.view.tree</field>
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='quizz_passed']" position="replace"/>
+            <xpath expr="//field[@name='quizz_score']" position="replace"/>
+        </field>
+    </record>   
+
+    <record id="survey_response_line_tree" model="ir.ui.view">
+        <field name="name">survey.user_input.view.tree</field>
+        <field name="model">survey.user_input_line</field>
+        <field name="inherit_id" ref="survey.survey_response_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='skipped']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='answer_score']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>   
+
 </data>
 </odoo>
