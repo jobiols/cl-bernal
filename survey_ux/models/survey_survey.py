@@ -2,6 +2,7 @@
 
 from werkzeug import urls
 from odoo import api, models, fields
+from odoo.exceptions import UserError
 
 
 class Survey(models.Model):
@@ -28,6 +29,10 @@ class Survey(models.Model):
         """
         #base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         base_url = self.env.company.company_registry
+        if not base_url:
+            raise UserError('No esta definida la URL de la compañia.\nVaya a la '
+                            'compañia y agregue la url en el campo "Registro de la '
+                            'compañia"')
         for survey in self:
             survey.public_url = urls.url_join(base_url, "survey/start/%s" % (survey.access_token))
 
