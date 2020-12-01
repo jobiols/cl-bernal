@@ -50,6 +50,11 @@
         'https://github.com/ingadhoc/aeroo_reports.git',
         'https://github.com/ingadhoc/account-payment.git',
         'https://github.com/ingadhoc/account-financial-tools.git',
+
+        # porque lo instalo mario en produccion
+        'https://github.com/oca/multi-company.git',
+        'https://github.com/oca/website.git',
+
     ],
 
     # list of images to use in the form 'name image-url'
