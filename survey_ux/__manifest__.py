@@ -33,9 +33,8 @@
     'data': [
         'views/email_template_form_view.xml',
         'views/survey_user_input_view.xml',
-        # no pongo esta vista porque no la puedo probar, me revienta cuando quiero
-        # ver la company.
-        #'views/survey_user_input_view.xml'
+        'data/cron_data.xml',
+        'views/survey_user_input_view.xml'
         ],
     'installable': True,
     'sequence': 3

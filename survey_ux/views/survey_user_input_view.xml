@@ -112,12 +112,20 @@
         <field name="model">survey.user_input_line</field>
         <field name="inherit_id" ref="survey.survey_response_line_tree"/>
         <field name="arch" type="xml">
+
             <xpath expr="//field[@name='skipped']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='answer_score']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+
+            <xpath expr="//field[@name='answer_score']" position="after">
+                <field name="value_suggested" string="Respuesta Sugerida"/>
+                <field name="participacion" string="Participación"/>
+                <field name="participacionx100" string="Participación %"/>
+            </xpath>
+    
         </field>
     </record>   
 
