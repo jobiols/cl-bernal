@@ -28,13 +28,13 @@
     'license': 'AGPL-3',
     'depends': [
         'survey',
-        'mail'
+        'mail','product'
         ],
     'data': [
         'views/email_template_form_view.xml',
         'views/survey_user_input_view.xml',
-        'data/cron_data.xml',
-        'views/survey_user_input_view.xml'
+        'views/survey_user_input_view.xml',
+        'security/ir.model.access.csv'
         ],
     'installable': True,
     'sequence': 3

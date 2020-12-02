@@ -107,27 +107,41 @@
         </field>
     </record>   
 
-    <record id="survey_response_line_tree" model="ir.ui.view">
-        <field name="name">survey.user_input.view.tree</field>
-        <field name="model">survey.user_input_line</field>
-        <field name="inherit_id" ref="survey.survey_response_line_tree"/>
+    <!-- survey.question Consultas consolidadas -->
+    <record id="survey_question_consolidated_tree" model="ir.ui.view">
+        <field name="name">SURVEY UX consolidado</field>
+        <field name="model">survey_ux.consolidated.line</field>
         <field name="arch" type="xml">
-
-            <xpath expr="//field[@name='skipped']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='answer_score']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='answer_score']" position="after">
-                <field name="value_suggested" string="Respuesta Sugerida"/>
-                <field name="participacion" string="Participación"/>
-                <field name="participacionx100" string="Participación %"/>
-            </xpath>
-    
+            <tree create="0" delete="0">
+                <field name="question" string="Pregunta"/>
+                <field name="answer" string="Respuesta"/>
+                <field name="participation" string="Participación" sum="Total"/>
+                <field name="participationx100" string="Participación %"/>
+            </tree>
         </field>
-    </record>   
+    </record>
+
+    <record id="action_survey_consolidated_form" model="ir.actions.act_window" >
+        <field name="name">Consolidated Line</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">survey_ux.consolidated.line</field>
+        <field name="view_mode">tree,pivot</field>
+        <!--
+            <field name="search_view_id" ref="survey_response_line_search"/>
+            <field name="context">{'search_default_group_by_survey': True, 'search_default_group_by_user_input': True}</field>
+    -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No Data found
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Respuestas consolidadas"
+        id="menu_survey_consolidated_form"
+        action="action_survey_consolidated_form"
+        parent="survey.survey_menu_user_inputs"
+        sequence="4"/>
 
 </data>
 </odoo>

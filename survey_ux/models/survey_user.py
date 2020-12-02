@@ -1,42 +1,46 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from werkzeug import urls
-from odoo import api, models, fields
-from odoo.exceptions import UserError
+from odoo import tools, models, fields, api
 
+class SurveyUserConsolidatedLine(models.Model):
+    """ Este modelo muestra las respuestas a las encuestas de tipo "simple_choice"
+    """
+    _name = 'survey_ux.consolidated.line'
+    _description = "consolidated answers for survey"
+    _auto = False
 
-class SurveyUserInputLine(models.Model):
-    _inherit = 'survey.user_input_line'
-
-    participacion = fields.Integer(
+    question = fields.Char(
     )
-    participacionx100 = fields.Float(
+    answer = fields.Char(
+    )
+    participation = fields.Integer(
+    )
+    participationx100 = fields.Float(
+        compute="_compute_participationx100"
     )
 
-    def compute_participacion(self):
-        """ Calcula las variables participacion y participacionx100
+    def _compute_participationx100(self):
+
+        self.participationx100 = 0.5
+
+    def init(self):
+        """ Create the view """
+        tools.drop_view_if_exists(self._cr, self._table)
+        query = """
+            SELECT
+                sq.id+sl.id as id,
+                sq.title as question,
+
+                sl.value as answer,
+                count(sl.value) as participation
+            FROM survey_question sq
+            JOIN survey_user_input_line suil
+            ON sq.id = suil.question_id
+            JOIN survey_label sl
+            ON sl.id = suil.value_suggested
+        where sq.question_type = 'simple_choice'
+        group by sl.value, sq.title, sq.id, sl.id
+        order by sq.title
         """
-        domain = [('question_type', '=', 'simple_choice')]
-        domain += [('user_input_line_ids', '!=', False)]
-
-        # cada una de las preguntas de tipo simple_choice con respuestas
-        questions_ids = self.env['survey.question'].search(domain)
-
-        for question_id in questions_ids:
-            line_ids = question_id.user_input_line_ids
-
-            # cantidad total de input lines en esta respuesta
-            count = len(line_ids)
-
-            # el conjunto de etiquetas que tienen las input lines
-            labels = line_ids.mapped(lambda x: x.value_suggested)
-
-            # verificar cuantas veces aparece cada label
-            for label in labels:
-                # por cada label obtener el recorset de respuestas que lo contiene
-                tmp = line_ids.search([('value_suggested', '=', label.id)])
-                qty = len(tmp)
-                # salvar las participaciones a todos los records con una sola asignacion
-                # ... esto anda solo a partir de la v13 ...
-                tmp.participacion = qty
-                tmp.participacionx100 = qty/count * 100
+        sql = 'CREATE OR REPLACE VIEW %s as (%s)'
+        self._cr.execute(sql % (self._table, query))
