@@ -11,6 +11,9 @@ class SurveyUserConsolidatedLine(models.Model):
 
     question = fields.Char(
     )
+    question_id = fields.Many2one(
+        'survey.question'
+    )
     answer = fields.Char(
     )
     participation = fields.Integer(
@@ -20,8 +23,9 @@ class SurveyUserConsolidatedLine(models.Model):
     )
 
     def _compute_participationx100(self):
-
-        self.participationx100 = 0.5
+        for rec in self:
+            count = len(rec.question_id.user_input_line_ids)
+            rec.participationx100 = rec.participation / count * 100
 
     def init(self):
         """ Create the view """
@@ -30,7 +34,7 @@ class SurveyUserConsolidatedLine(models.Model):
             SELECT
                 sq.id+sl.id as id,
                 sq.title as question,
-
+                sq.id as question_id,
                 sl.value as answer,
                 count(sl.value) as participation
             FROM survey_question sq

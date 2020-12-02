@@ -1,8 +1,25 @@
 {
-    "restructuredtext.confPath": "",
-    "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.linting.pylintArgs": ["--load-plugins","pylint_odoo","-d C0114,E0401,C0115,C0116,c8101"],
-    "files.insertFinalNewline": true,
-    "files.trimTrailingWhitespace": true,
-}
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_odoo",
+        "-d all",
+        "-e odoolint",
+        "-d C8101"
+    ],
+    "python.linting.pylintUseMinimalCheckers": false,
+    "python.linting.pylintEnabled": true    ,
+
+    "restructuredtext.confPath": "",
+    "sqltools.connections": [
+        {
+            "database": "bernal_prod",
+            "driver": "PostgreSQL",
+            "name": "bernal_prod",
+            "password": "odoo",
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "odoo"
+        }
+    ]
+    }
