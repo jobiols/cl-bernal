@@ -8,24 +8,24 @@ class SurveyUserConsolidatedLine(models.Model):
     _name = 'survey_ux.consolidated.line'
     _description = "consolidated answers for survey"
     _auto = False
-    survey_id = fields.Many2one(
-        'survey.survey'
-    )
-    # hago la relacion aca para no hacer un join
     code_field = fields.Char(
-        related="survey_id.code_field"
+        string="Código Encuesta",
     )
     question = fields.Char(
+        string="Pregunta"
     )
     question_id = fields.Many2one(
         'survey.question'
     )
     answer = fields.Char(
+        string="Respuesta"
     )
     participation = fields.Integer(
+        string="Participación"
     )
     participationx100 = fields.Float(
-        compute="_compute_participationx100"
+        compute="_compute_participationx100",
+        string="Participacion %"
     )
 
     def _compute_participationx100(self):
@@ -38,19 +38,21 @@ class SurveyUserConsolidatedLine(models.Model):
         tools.drop_view_if_exists(self._cr, self._table)
         query = """
             SELECT
-                sq.survey_id as survey_id,
                 sq.id+sl.id as id,
                 sq.title as question,
                 sq.id as question_id,
                 sl.value as answer,
+                ss.code_field,
                 count(sl.value) as participation
             FROM survey_question sq
             JOIN survey_user_input_line suil
             ON sq.id = suil.question_id
             JOIN survey_label sl
             ON sl.id = suil.value_suggested
+            JOIN survey_survey ss
+            ON ss.id = sq.survey_id
         where sq.question_type = 'simple_choice'
-        group by sl.value, sq.title, sq.id, sl.id
+        group by sl.value, sq.title, sq.id, sl.id, ss.code_field
         order by sq.title
         """
         sql = 'CREATE OR REPLACE VIEW %s as (%s)'

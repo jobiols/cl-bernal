@@ -107,30 +107,45 @@
         </field>
     </record>   
 
-    <!-- survey.question Consultas consolidadas -->
+    <!-- survey.question Consultas consolidadas pivot -->
     <record id="survey_question_consolidated_tree" model="ir.ui.view">
         <field name="name">SURVEY UX consolidado</field>
         <field name="model">survey_ux.consolidated.line</field>
         <field name="arch" type="xml">
             <tree create="0" delete="0">
-                <field name="code_field" string="Encuesta"/>
-                <field name="question" string="Pregunta"/>
-                <field name="answer" string="Respuesta"/>
-                <field name="participation" string="Participación" sum="Total"/>
-                <field name="participationx100" string="Participación %"/>
+                <field name="code_field"/>
+                <field name="question"/>
+                <field name="answer"/>
+                <field name="participation" sum="Total"/>
+                <field name="participationx100"/>
             </tree>
         </field>
     </record>
+
+    <!-- survey_ux.consolidated.line search view -->
+    <record id="survey_consolidated_line_search" model="ir.ui.view">
+        <field name="name">SURVEY UX search</field>
+        <field name="model">survey_ux.consolidated.line</field>
+        <field name="arch" type="xml">
+            <search string="Search Description">
+                <field name="code_field"/>
+                <field name="question"/>
+                <field name="answer"/>
+
+                <filter name="Encuesta" context="{'group_by': 'code_field'}" />
+                <filter name="Pregunta" context="{'group_by': 'question'}" />
+                <filter name="Respuesta" context="{'group_by': 'answer'}" />
+            </search>
+        </field>
+    </record>
+
 
     <record id="action_survey_consolidated_form" model="ir.actions.act_window" >
         <field name="name">Consolidated Line</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">survey_ux.consolidated.line</field>
         <field name="view_mode">tree,pivot</field>
-        <!--
-            <field name="search_view_id" ref="survey_response_line_search"/>
-            <field name="context">{'search_default_group_by_survey': True, 'search_default_group_by_user_input': True}</field>
-    -->
+        <field name="search_view_id" ref="survey_consolidated_line_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_empty_folder">
                 No Data found

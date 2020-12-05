@@ -10,6 +10,7 @@ class Survey(models.Model):
 
     code_field = fields.Char(
         compute="_compute_code_field",
+        store=True
     )
 
     @api.depends('title')
