@@ -1,4 +1,5 @@
             SELECT
+                sq.survey_id,
                 sq.id+sl.id as id,
                 sq.title as question,
                 sl.value as answer,

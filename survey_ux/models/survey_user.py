@@ -8,7 +8,13 @@ class SurveyUserConsolidatedLine(models.Model):
     _name = 'survey_ux.consolidated.line'
     _description = "consolidated answers for survey"
     _auto = False
-
+    survey_id = fields.Many2one(
+        'survey.survey'
+    )
+    # hago la relacion aca para no hacer un join
+    code_field = fields.Char(
+        related="survey_id.code_field"
+    )
     question = fields.Char(
     )
     question_id = fields.Many2one(
@@ -32,6 +38,7 @@ class SurveyUserConsolidatedLine(models.Model):
         tools.drop_view_if_exists(self._cr, self._table)
         query = """
             SELECT
+                sq.survey_id as survey_id,
                 sq.id+sl.id as id,
                 sq.title as question,
                 sq.id as question_id,

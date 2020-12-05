@@ -113,6 +113,7 @@
         <field name="model">survey_ux.consolidated.line</field>
         <field name="arch" type="xml">
             <tree create="0" delete="0">
+                <field name="code_field" string="Encuesta"/>
                 <field name="question" string="Pregunta"/>
                 <field name="answer" string="Respuesta"/>
                 <field name="participation" string="Participación" sum="Total"/>
