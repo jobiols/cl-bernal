@@ -15,19 +15,27 @@ class MailListAcqirer(models.AbstractModel):
     def new_file(path):
         """ Devuelve True si hay un archivo nuevo para leer
         """
+        from os import listdir
+        from os.path import isfile, join
+
         try:
-            files = os.listdir(path)
+            files = [f for f in listdir(path) if isfile(join(path, f))]
         except FileNotFoundError:
             _logger.error("The path %s is not found. See 'batch.upload.path "
                           "parameter'", path)
             return False
+
         return files
 
     @staticmethod
     def get_file(path):
         """ Devuelve el nombre del archivo nuevo
         """
+        from os import listdir
+        from os.path import isfile, join
+
         files = os.listdir(path)
+        files = [f for f in listdir(path) if isfile(join(path, f))]
         return '%s/%s' % (path, files[0]) if files else False
 
     @staticmethod
@@ -88,7 +96,11 @@ class MailListAcqirer(models.AbstractModel):
         with _f:
             reader = csv.reader(_f, delimiter='|')
             for row in reader:
-                process_file_line(row)
+                try:
+                    process_file_line(row)
+                except:
+                    _logger.error('La linea del archivo no es valida, salteando linea')
+                    continue
 
         if path_bkp:
             try:
@@ -101,6 +113,9 @@ class MailListAcqirer(models.AbstractModel):
     def save_mails(self, data):
         """ Salvar los mails en las listas de correo
         """
+        if not data:
+            return False
+
         mailing_list_obj = self.env['mailing.list']
         contact_obj = self.env['mailing.contact']
         mailing_subscription_obj = self.env['mailing.contact.subscription']
@@ -143,6 +158,13 @@ class MailListAcqirer(models.AbstractModel):
         config = self.env['ir.config_parameter'].sudo()
         path = config.get_param("batch.upload.path", '/var/log/odoo/upload').rstrip('/')
         path_bkp = config.get_param("batch.upload.path.bkp", '/var/log/odoo/bkp').rstrip('/')
+
+        if not os.path.isdir(path):
+            _logger.error('No se encuentra la carpeta %s, Abortando tarea.', path)
+            return
+        if not os.path.isdir(path_bkp):
+            _logger.error('No se encuentra la carpeta %s, Abortando tarea.', path_bkp)
+            return
 
         while self.new_file(path):
             filename = self.get_file(path)
