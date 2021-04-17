@@ -17,7 +17,11 @@ class Survey(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            res += [(rec.id, "%s %s" % (rec.code_field, rec.title))]
+            res += [(rec.id, "%s %s" % (
+                                        "EN{:05}".format(rec.id),
+                                        rec.title
+                                        )
+            )]
         return res
 
     def _compute_code_field(self):

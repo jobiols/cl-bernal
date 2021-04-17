@@ -21,5 +21,6 @@
             "server": "localhost",
             "username": "odoo"
         }
-    ]
+    ],
+    "restructuredtext.languageServer.disabled": true
     }
