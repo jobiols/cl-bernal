@@ -12,6 +12,10 @@ class Survey(models.Model):
         compute="_compute_code_field",
         store=True
     )
+    mailing_list = fields.Many2one(
+        'mailing.list',
+        string="Lista de Correo"
+    )
 
     @api.depends('title')
     def name_get(self):

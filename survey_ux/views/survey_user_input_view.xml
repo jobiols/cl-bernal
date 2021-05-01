@@ -46,7 +46,8 @@
         parent="survey.menu_surveys" 
         sequence="80"/>
 
-    <!-- poner la secuencia (code field) en el formulario de encuestas -->
+    <!-- poner la secuencia (code field) en el formulario de encuestas y ademas 
+         poner el mailing list -->
     <record id="survey_form" model="ir.ui.view">
         <field name="name">survey_form_model_inherit</field>
         <field name="model">survey.survey</field>
@@ -56,6 +57,9 @@
                 <div style="float: left;">
                     <strong><field name="code_field"/></strong>
                 </div>
+            </xpath>
+            <xpath expr="//field[@name='emails']" position="after">
+                <field name="mailing_list"/>
             </xpath>
         </field>
     </record>
